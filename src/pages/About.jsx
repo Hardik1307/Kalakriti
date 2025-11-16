@@ -97,7 +97,7 @@ const About = () => {
               marginBottom: '25px'
             }}>
               Kalakriti is dedicated to preserving and promoting the rich tradition of Indian art.
-              We provide a platform where talented artists can showcase their work and art enthusiasts
+              We provide a platform where talented artist can showcase their work and art enthusiasts
               can discover and collect authentic Indian paintings.
             </p>
             <p style={{
