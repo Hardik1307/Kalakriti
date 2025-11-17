@@ -23,37 +23,8 @@ const UserProfile = () => {
     bio: '',
     interests: []
   })
-
-  // Mock order history
-  const [orderHistory] = useState([
-    {
-      id: 'ORD001',
-      date: '2024-10-20',
-      items: [
-        { name: 'Madhubani Raga', artist: 'Pooja Sharma', price: 33750, image: '/images/new images/painting 1.webp' }
-      ],
-      total: 33750,
-      status: 'Delivered'
-    },
-    {
-      id: 'ORD002',
-      date: '2024-10-15',
-      items: [
-        { name: 'Rajput Heritage', artist: 'Rajesh Kumar', price: 45000, image: '/images/new images/painting 2.jpg' }
-      ],
-      total: 45000,
-      status: 'Shipped'
-    },
-    {
-      id: 'ORD003',
-      date: '2024-10-10',
-      items: [
-        { name: 'Kalamkari Samudra', artist: 'Meera Patel', price: 28500, image: '/images/new images/painting 3.jpg' }
-      ],
-      total: 28500,
-      status: 'Processing'
-    }
-  ])
+  const [orderHistory, setOrderHistory] = useState([])
+  const [selectedReceipt, setSelectedReceipt] = useState(null)
 
   // Mock wishlist
   const [wishlist] = useState([
@@ -66,7 +37,7 @@ const UserProfile = () => {
     },
     {
       id: '6',
-      name: 'Warli Village Life',
+      name: 'Prakriti Aangan',
       artist: 'Rajesh Kumar',
       price: 31500,
       image: '/images/new images/painting 6.jpg'
@@ -94,6 +65,11 @@ const UserProfile = () => {
       bio: currentUser.bio || '',
       interests: currentUser.interests || []
     })
+
+    // Load user's orders from localStorage
+    const allOrders = JSON.parse(localStorage.getItem('userOrders') || '[]')
+    const userOrders = allOrders.filter(order => order.userEmail === currentUser.email)
+    setOrderHistory(userOrders)
   }, [navigate])
 
   const handleInputChange = (e) => {
@@ -267,11 +243,13 @@ const UserProfile = () => {
           background: 'white',
           borderRadius: '15px',
           padding: '5px',
-          boxShadow: '0 5px 15px rgba(0,0,0,0.1)'
+          boxShadow: '0 5px 15px rgba(0,0,0,0.1)',
+          flexWrap: 'wrap'
         }}>
           {[
             { id: 'profile', label: 'Profile', icon: '👤' },
             { id: 'orders', label: 'Orders', icon: '📦' },
+            { id: 'transactions', label: 'Transactions', icon: '💳' },
             { id: 'wishlist', label: 'Wishlist', icon: '❤️' },
             { id: 'settings', label: 'Settings', icon: '⚙️' }
           ].map(tab => (
@@ -572,7 +550,7 @@ const UserProfile = () => {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                   {orderHistory.map((order) => (
                     <div
-                      key={order.id}
+                      key={order.orderId}
                       style={{
                         border: '2px solid #e1e5e9',
                         borderRadius: '15px',
@@ -582,9 +560,9 @@ const UserProfile = () => {
                     >
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                         <div>
-                          <h4 style={{ marginBottom: '5px', color: '#333' }}>Order #{order.id}</h4>
+                          <h4 style={{ marginBottom: '5px', color: '#333' }}>Order #{order.orderId}</h4>
                           <p style={{ color: '#666', fontSize: '14px' }}>
-                            Placed on {new Date(order.date).toLocaleDateString()}
+                            Placed on {new Date(order.orderDate).toLocaleDateString()}
                           </p>
                         </div>
                         <div style={{ textAlign: 'right' }}>
@@ -600,7 +578,7 @@ const UserProfile = () => {
                             {order.status}
                           </div>
                           <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#333' }}>
-                            ₹{order.total.toLocaleString()}
+                            ₹{order.totalAmount.toLocaleString()}
                           </div>
                         </div>
                       </div>
@@ -624,7 +602,7 @@ const UserProfile = () => {
                                 By {item.artist}
                               </p>
                               <p style={{ color: '#6a11cb', fontWeight: '600' }}>
-                                ₹{item.price.toLocaleString()}
+                                ₹{(item.price * item.quantity).toLocaleString()} {item.quantity > 1 ? `(${item.quantity}x)` : ''}
                               </p>
                             </div>
                           </div>
@@ -633,6 +611,308 @@ const UserProfile = () => {
                     </div>
                   ))}
                 </div>
+              )}
+            </div>
+          )}
+
+          {/* Transactions Tab */}
+          {activeTab === 'transactions' && (
+            <div>
+              <h3 style={{ fontSize: '1.8rem', color: '#333', marginBottom: '30px' }}>
+                Transaction History & Receipts
+              </h3>
+              
+              {orderHistory.length === 0 ? (
+                <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+                  <div style={{ fontSize: '4rem', marginBottom: '20px' }}>💳</div>
+                  <h4 style={{ marginBottom: '15px', color: '#666' }}>No Transactions Yet</h4>
+                  <p style={{ color: '#999', marginBottom: '25px' }}>
+                    Your payment history will appear here after your first purchase.
+                  </p>
+                  <Link to="/gallery" className="btn btn-primary">
+                    Start Shopping
+                  </Link>
+                </div>
+              ) : (
+                <>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginBottom: '30px' }}>
+                    {orderHistory.map((order) => (
+                      <div
+                        key={order.orderId}
+                        style={{
+                          border: '2px solid #e1e5e9',
+                          borderRadius: '15px',
+                          padding: '25px',
+                          background: '#f8f9fa',
+                          transition: 'all 0.3s ease'
+                        }}
+                      >
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '20px' }}>
+                          <div style={{ flex: 1 }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '10px' }}>
+                              <h4 style={{ margin: 0, color: '#333' }}>Transaction #{order.orderId}</h4>
+                              <div style={{
+                                background: '#28a745',
+                                color: 'white',
+                                padding: '4px 12px',
+                                borderRadius: '12px',
+                                fontSize: '12px',
+                                fontWeight: '600'
+                              }}>
+                                ✓ Completed
+                              </div>
+                            </div>
+                            <p style={{ color: '#666', fontSize: '14px', marginBottom: '8px' }}>
+                              📅 {new Date(order.orderDate).toLocaleString()}
+                            </p>
+                            <p style={{ color: '#666', fontSize: '14px', marginBottom: '8px' }}>
+                              💳 Payment Method: {order.paymentMethod}
+                            </p>
+                            <p style={{ color: '#666', fontSize: '14px' }}>
+                              📧 Receipt sent to: {order.userEmail}
+                            </p>
+                          </div>
+                          
+                          <div style={{ textAlign: 'right' }}>
+                            <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#6a11cb', marginBottom: '15px' }}>
+                              ₹{order.totalAmount.toLocaleString()}
+                            </div>
+                            <button
+                              onClick={() => setSelectedReceipt(order)}
+                              className="btn btn-outline"
+                              style={{ 
+                                padding: '8px 16px', 
+                                fontSize: '14px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '5px'
+                              }}
+                            >
+                              🧾 View Receipt
+                            </button>
+                          </div>
+                        </div>
+                        
+                        <div style={{ 
+                          borderTop: '1px solid #e1e5e9', 
+                          paddingTop: '15px',
+                          marginTop: '15px'
+                        }}>
+                          <h5 style={{ marginBottom: '15px', color: '#333', fontSize: '14px', fontWeight: '600' }}>
+                            Items Purchased ({order.items.length})
+                          </h5>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                            {order.items.map((item, index) => (
+                              <div key={index} style={{ 
+                                display: 'flex', 
+                                gap: '12px', 
+                                alignItems: 'center',
+                                padding: '10px',
+                                background: 'white',
+                                borderRadius: '8px'
+                              }}>
+                                <img
+                                  src={item.image}
+                                  alt={item.name}
+                                  style={{
+                                    width: '60px',
+                                    height: '60px',
+                                    objectFit: 'cover',
+                                    borderRadius: '8px'
+                                  }}
+                                />
+                                <div style={{ flex: 1 }}>
+                                  <h6 style={{ margin: '0 0 4px 0', color: '#333', fontSize: '14px' }}>
+                                    {item.name}
+                                  </h6>
+                                  <p style={{ color: '#999', fontSize: '12px', margin: 0 }}>
+                                    Qty: {item.quantity}
+                                  </p>
+                                </div>
+                                <div style={{ fontWeight: '600', color: '#6a11cb' }}>
+                                  ₹{(item.price * item.quantity).toLocaleString()}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div style={{ 
+                          borderTop: '1px solid #e1e5e9', 
+                          paddingTop: '15px',
+                          marginTop: '15px'
+                        }}>
+                          <h5 style={{ marginBottom: '10px', color: '#333', fontSize: '14px', fontWeight: '600' }}>
+                            Shipping Address
+                          </h5>
+                          <p style={{ color: '#666', fontSize: '14px', lineHeight: '1.6', margin: 0 }}>
+                            {order.shippingAddress.fullName}<br />
+                            {order.shippingAddress.address}<br />
+                            {order.shippingAddress.city}, {order.shippingAddress.state} - {order.shippingAddress.pincode}<br />
+                            📞 {order.shippingAddress.phone}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Receipt Modal */}
+                  {selectedReceipt && (
+                    <div style={{
+                      position: 'fixed',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background: 'rgba(0, 0, 0, 0.7)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      zIndex: 1000,
+                      padding: '20px'
+                    }}
+                    onClick={() => setSelectedReceipt(null)}>
+                      <div style={{
+                        background: 'white',
+                        borderRadius: '20px',
+                        padding: '40px',
+                        maxWidth: '600px',
+                        width: '100%',
+                        maxHeight: '90vh',
+                        overflow: 'auto',
+                        position: 'relative'
+                      }}
+                      onClick={(e) => e.stopPropagation()}>
+                        <button
+                          onClick={() => setSelectedReceipt(null)}
+                          style={{
+                            position: 'absolute',
+                            top: '15px',
+                            right: '15px',
+                            background: '#f8f9fa',
+                            border: 'none',
+                            borderRadius: '50%',
+                            width: '35px',
+                            height: '35px',
+                            fontSize: '20px',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
+                        >
+                          ×
+                        </button>
+
+                        {/* Receipt Header */}
+                        <div style={{ textAlign: 'center', marginBottom: '30px', borderBottom: '2px solid #6a11cb', paddingBottom: '20px' }}>
+                          <h2 style={{ 
+                            fontSize: '2rem', 
+                            marginBottom: '10px',
+                            background: 'linear-gradient(135deg, #6a11cb, #2575fc)',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent'
+                          }}>
+                            🎨 Kalakriti
+                          </h2>
+                          <p style={{ color: '#666', fontSize: '14px', margin: 0 }}>
+                            Indian Art Marketplace
+                          </p>
+                        </div>
+
+                        {/* Receipt Details */}
+                        <div style={{ marginBottom: '25px' }}>
+                          <h3 style={{ fontSize: '1.3rem', marginBottom: '15px', color: '#333' }}>
+                            Payment Receipt
+                          </h3>
+                          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', fontSize: '14px' }}>
+                            <div>
+                              <strong>Order ID:</strong> {selectedReceipt.orderId}
+                            </div>
+                            <div>
+                              <strong>Date:</strong> {new Date(selectedReceipt.orderDate).toLocaleDateString()}
+                            </div>
+                            <div>
+                              <strong>Payment Method:</strong> {selectedReceipt.paymentMethod}
+                            </div>
+                            <div>
+                              <strong>Status:</strong> <span style={{ color: '#28a745', fontWeight: '600' }}>Paid</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Items */}
+                        <div style={{ marginBottom: '25px' }}>
+                          <h4 style={{ marginBottom: '15px', color: '#333' }}>Items</h4>
+                          <table style={{ width: '100%', fontSize: '14px' }}>
+                            <thead>
+                              <tr style={{ borderBottom: '2px solid #e1e5e9' }}>
+                                <th style={{ textAlign: 'left', padding: '10px 0', color: '#666' }}>Item</th>
+                                <th style={{ textAlign: 'center', padding: '10px 0', color: '#666' }}>Qty</th>
+                                <th style={{ textAlign: 'right', padding: '10px 0', color: '#666' }}>Price</th>
+                                <th style={{ textAlign: 'right', padding: '10px 0', color: '#666' }}>Total</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {selectedReceipt.items.map((item, index) => (
+                                <tr key={index} style={{ borderBottom: '1px solid #f0f0f0' }}>
+                                  <td style={{ padding: '12px 0' }}>{item.name}</td>
+                                  <td style={{ textAlign: 'center', padding: '12px 0' }}>{item.quantity}</td>
+                                  <td style={{ textAlign: 'right', padding: '12px 0' }}>₹{item.price.toLocaleString()}</td>
+                                  <td style={{ textAlign: 'right', padding: '12px 0', fontWeight: '600' }}>
+                                    ₹{(item.price * item.quantity).toLocaleString()}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+
+                        {/* Total */}
+                        <div style={{ 
+                          borderTop: '2px solid #e1e5e9', 
+                          paddingTop: '15px',
+                          marginBottom: '25px'
+                        }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '18px', fontWeight: 'bold' }}>
+                            <span>Total Amount Paid:</span>
+                            <span style={{ color: '#6a11cb' }}>₹{selectedReceipt.totalAmount.toLocaleString()}</span>
+                          </div>
+                        </div>
+
+                        {/* Shipping Address */}
+                        <div style={{ 
+                          background: '#f8f9fa', 
+                          padding: '15px', 
+                          borderRadius: '10px',
+                          marginBottom: '20px'
+                        }}>
+                          <h4 style={{ marginBottom: '10px', color: '#333', fontSize: '14px' }}>Shipping Address</h4>
+                          <p style={{ color: '#666', fontSize: '13px', lineHeight: '1.6', margin: 0 }}>
+                            {selectedReceipt.shippingAddress.fullName}<br />
+                            {selectedReceipt.shippingAddress.address}<br />
+                            {selectedReceipt.shippingAddress.city}, {selectedReceipt.shippingAddress.state} - {selectedReceipt.shippingAddress.pincode}<br />
+                            📞 {selectedReceipt.shippingAddress.phone}
+                          </p>
+                        </div>
+
+                        {/* Footer */}
+                        <div style={{ textAlign: 'center', paddingTop: '20px', borderTop: '1px solid #e1e5e9' }}>
+                          <p style={{ color: '#999', fontSize: '12px', marginBottom: '15px' }}>
+                            Thank you for your purchase! For any queries, contact us at support@kalakriti.com
+                          </p>
+                          <button
+                            onClick={() => window.print()}
+                            className="btn btn-primary"
+                            style={{ padding: '10px 25px', fontSize: '14px' }}
+                          >
+                            🖨️ Print Receipt
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           )}

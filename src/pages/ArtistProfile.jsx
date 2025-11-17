@@ -125,7 +125,7 @@ const ArtistProfile = () => {
     },
     {
       id: '5',
-      name: 'Pattachitra Dreams',
+      name: 'Yuddh Raag',
       price: 32000,
       image: '/images/new images/painting 5.jpg',
       status: 'Available'

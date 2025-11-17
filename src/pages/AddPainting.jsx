@@ -40,7 +40,7 @@ const AddPainting = () => {
       }
 
       setImageFile(file)
-      
+
       // Create preview
       const reader = new FileReader()
       reader.onloadend = () => {
@@ -66,7 +66,7 @@ const AddPainting = () => {
 
     // Get existing paintings from localStorage
     const existingPaintings = JSON.parse(localStorage.getItem('customPaintings') || '[]')
-    
+
     // Create new painting object with base64 image
     const newPainting = {
       id: Date.now(),
@@ -81,7 +81,7 @@ const AddPainting = () => {
     localStorage.setItem('customPaintings', JSON.stringify(existingPaintings))
 
     setMessage({ text: '✅ Painting added successfully!', type: 'success' })
-    
+
     // Reset form
     setTimeout(() => {
       navigate('/gallery')
@@ -89,13 +89,13 @@ const AddPainting = () => {
   }
 
   return (
-    <div style={{ 
-      paddingTop: '40px', 
+    <div style={{
+      paddingTop: '40px',
       minHeight: '100vh',
       background: 'linear-gradient(135deg, #f8f9fa, #e9ecef)'
     }}>
       <div className="container" style={{ maxWidth: '800px' }}>
-        <button 
+        <button
           onClick={() => navigate('/gallery')}
           className="btn btn-outline"
           style={{ marginBottom: '30px' }}
@@ -109,8 +109,8 @@ const AddPainting = () => {
           borderRadius: '20px',
           boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
         }}>
-          <h1 style={{ 
-            fontSize: '2.5rem', 
+          <h1 style={{
+            fontSize: '2.5rem',
             marginBottom: '10px',
             background: 'linear-gradient(45deg, #6a11cb, #2575fc)',
             WebkitBackgroundClip: 'text',
@@ -150,31 +150,31 @@ const AddPainting = () => {
                 cursor: 'pointer',
                 transition: 'all 0.3s ease'
               }}
-              onDragOver={(e) => {
-                e.preventDefault()
-                e.currentTarget.style.borderColor = '#6a11cb'
-                e.currentTarget.style.background = '#f0e6ff'
-              }}
-              onDragLeave={(e) => {
-                e.currentTarget.style.borderColor = '#e1e5e9'
-                e.currentTarget.style.background = '#f8f9fa'
-              }}
-              onDrop={(e) => {
-                e.preventDefault()
-                e.currentTarget.style.borderColor = '#e1e5e9'
-                e.currentTarget.style.background = '#f8f9fa'
-                const file = e.dataTransfer.files[0]
-                if (file) {
-                  const fakeEvent = { target: { files: [file] } }
-                  handleImageChange(fakeEvent)
-                }
-              }}
-              onClick={() => document.getElementById('imageInput').click()}>
+                onDragOver={(e) => {
+                  e.preventDefault()
+                  e.currentTarget.style.borderColor = '#6a11cb'
+                  e.currentTarget.style.background = '#f0e6ff'
+                }}
+                onDragLeave={(e) => {
+                  e.currentTarget.style.borderColor = '#e1e5e9'
+                  e.currentTarget.style.background = '#f8f9fa'
+                }}
+                onDrop={(e) => {
+                  e.preventDefault()
+                  e.currentTarget.style.borderColor = '#e1e5e9'
+                  e.currentTarget.style.background = '#f8f9fa'
+                  const file = e.dataTransfer.files[0]
+                  if (file) {
+                    const fakeEvent = { target: { files: [file] } }
+                    handleImageChange(fakeEvent)
+                  }
+                }}
+                onClick={() => document.getElementById('imageInput').click()}>
                 {imagePreview ? (
                   <div>
-                    <img 
-                      src={imagePreview} 
-                      alt="Preview" 
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
                       style={{
                         maxWidth: '100%',
                         maxHeight: '300px',

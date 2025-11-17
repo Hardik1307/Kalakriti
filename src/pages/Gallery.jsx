@@ -26,7 +26,7 @@ const Gallery = () => {
     },
     {
       id: 'painting2',
-      name: 'Rajput Virasat',
+      name: 'Chitrakala',
       artist: 'Rajesh Kumar',
       price: 51000,
       image: '/images/new images/painting 2.jpg',
@@ -53,7 +53,7 @@ const Gallery = () => {
     },
     {
       id: 'painting5',
-      name: 'Pattachitra Vasant',
+      name: 'Yuddh Raag',
       artist: 'Ananya Roy',
       price: 29500,
       image: '/images/new images/painting 5.jpg',
@@ -62,7 +62,7 @@ const Gallery = () => {
     },
     {
       id: 'painting6',
-      name: 'Pahadi Jheel',
+      name: 'Abstrakt Bharat',
       artist: 'Ravi Kumar',
       price: 27300,
       image: '/images/new images/painting 6.jpg',
@@ -80,7 +80,7 @@ const Gallery = () => {
     },
     {
       id: 'painting8',
-      name: 'Warli Celebration',
+      name: 'Prakriti Aangan',
       artist: 'Amit Desai',
       price: 31200,
       image: '/images/new images/painting 8.jpg',

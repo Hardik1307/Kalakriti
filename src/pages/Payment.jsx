@@ -55,19 +55,29 @@ const Payment = () => {
       // Create order
       const orderDetails = {
         orderId: 'ORD' + Date.now(),
-        items: items,
+        userEmail: currentUser.email,
+        items: items.map(item => ({
+          id: item.id,
+          name: item.name,
+          artist: item.artist || 'Unknown Artist',
+          price: item.price,
+          quantity: item.quantity || 1,
+          image: item.image
+        })),
         subtotal: subtotal,
         tax: tax,
-        total: total,
-        paymentMethod: paymentMethod,
+        totalAmount: total,
+        paymentMethod: paymentMethod === 'card' ? 'Credit/Debit Card' : 
+                       paymentMethod === 'upi' ? 'UPI' : 'Cash on Delivery',
         shippingAddress: {
+          fullName: `${currentUser.firstName || ''} ${currentUser.lastName || ''}`.trim() || currentUser.email,
           address: formData.address,
           city: formData.city,
           state: formData.state,
           pincode: formData.pincode,
           phone: formData.phone
         },
-        date: new Date().toISOString(),
+        orderDate: new Date().toISOString(),
         status: 'Confirmed'
       }
 

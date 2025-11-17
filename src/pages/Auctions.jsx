@@ -17,7 +17,7 @@ const Auctions = () => {
     },
     {
       id: 2,
-      name: 'Rajput Virasat',
+      name: 'Chitrakala',
       artist: 'Rajesh Kumar',
       currentBid: 51000,
       image: '/images/new images/painting 2.jpg',
@@ -26,7 +26,7 @@ const Auctions = () => {
     },
     {
       id: 3,
-      name: 'Pahadi Jheel',
+      name: 'Abstrakt Bharat',
       artist: 'Ravi Kumar',
       currentBid: 27300,
       image: '/images/new images/painting 6.jpg',

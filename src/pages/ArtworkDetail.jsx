@@ -38,7 +38,7 @@ const ArtworkDetail = () => {
     },
     '2': {
       id: '2',
-      name: 'Rajput Virasat',
+      name: 'Chitrakala',
       artist: 'Rajesh Kumar',
       artistId: 'rajesh-kumar',
       price: 51000,
@@ -47,7 +47,7 @@ const ArtworkDetail = () => {
         '/images/artworks/detail-thumb3.svg',
         '/images/artworks/detail-thumb4.svg'
       ],
-      description: 'An exquisite Rajput miniature painting depicting royal court scenes with intricate details and rich colors. This masterpiece represents the grandeur of Rajasthani art traditions.',
+      description: 'An exquisite miniature painting depicting royal court scenes with intricate details and rich colors. This masterpiece represents the grandeur of traditional Indian art.',
       dimensions: '18" x 24"',
       medium: 'Watercolor on Paper',
       year: '2024',
@@ -108,7 +108,7 @@ const ArtworkDetail = () => {
     },
     {
       id: '5',
-      name: 'Pattachitra Dreams',
+      name: 'Yuddh Raag',
       artist: 'Pooja Sharma',
       price: 32000,
       image: '/images/new images/painting 5.jpg',

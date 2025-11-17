@@ -18,9 +18,9 @@ const About = () => {
   ]
 
   const team = [
-    { name: 'Arjun Mehta', role: 'Founder & CEO', image: '👨‍💼', description: 'Art historian and technology enthusiast' },
-    { name: 'Priya Sharma', role: 'Art Director', image: '👩‍🎨', description: 'Expert in traditional Indian art forms' },
-    { name: 'Vikram Singh', role: 'Technology Lead', image: '👨‍💻', description: 'Building the future of art commerce' }
+    { name: 'Hardik Saluja', role: 'Founder & CEO', image: '👨‍💼', description: 'Art historian and technology enthusiast' },
+    { name: 'Hansika Khanna', role: 'Art Director', image: '👩‍🎨', description: 'Expert in traditional Indian art forms' },
+    { name: 'Hardik Singla', role: 'Technology Lead', image: '👨‍💻', description: 'Building the future of art commerce' }
   ]
 
   return (

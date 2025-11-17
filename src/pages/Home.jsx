@@ -48,7 +48,7 @@ const Home = () => {
     },
     {
       image: '/images/new%20images/painting%205.jpg',
-      title: 'Pattachitra Masterpieces',
+      title: 'Traditional Masterpieces',
       description: 'Discover paintings that capture the essence of every season with stunning color palettes.',
       buttons: [
         { text: 'Browse Seasons', link: '/gallery', type: 'primary' },
@@ -57,7 +57,7 @@ const Home = () => {
     },
     {
       image: '/images/new%20images/painting%206.jpg',
-      title: 'Pahadi Wonders',
+      title: 'Abstract Wonders',
       description: 'Journey through breathtaking landscapes captured by talented local artists.',
       buttons: [
         { text: 'Explore Landscapes', link: '/gallery', type: 'primary' },
@@ -104,7 +104,7 @@ const Home = () => {
     },
     {
       id: 'painting2',
-      name: 'Rajput Virasat',
+      name: 'Chitrakala',
       artist: 'Rajesh Kumar',
       price: 51000,
       image: '/images/new images/painting 2.jpg',
@@ -128,7 +128,7 @@ const Home = () => {
     },
     {
       id: 'painting5',
-      name: 'Pattachitra Vasant',
+      name: 'Yuddh Raag',
       artist: 'Ananya Roy',
       price: 29500,
       image: '/images/new images/painting 5.jpg',
@@ -136,7 +136,7 @@ const Home = () => {
     },
     {
       id: 'painting6',
-      name: 'Pahadi Jheel',
+      name: 'Abstrakt Bharat',
       artist: 'Ravi Kumar',
       price: 27300,
       image: '/images/new images/painting 6.jpg',
