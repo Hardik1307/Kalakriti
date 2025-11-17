@@ -16,6 +16,8 @@ const Contact = lazy(() => import('./pages/Contact'))
 const Login = lazy(() => import('./pages/Login'))
 const Signup = lazy(() => import('./pages/Signup'))
 const Cart = lazy(() => import('./pages/Cart'))
+const Payment = lazy(() => import('./pages/Payment'))
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard'))
 const ArtworkDetail = lazy(() => import('./pages/ArtworkDetail'))
 const ArtistProfile = lazy(() => import('./pages/ArtistProfile'))
 const UserProfile = lazy(() => import('./pages/UserProfile'))
@@ -156,6 +158,8 @@ function App() {
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/cart" element={<Cart />} />
+                  <Route path="/payment" element={<Payment />} />
+                  <Route path="/admin" element={<AdminDashboard />} />
                   <Route path="/profile" element={<UserProfile />} />
                   <Route path="/artwork/:id" element={<ArtworkDetail />} />
                   <Route path="/artist/:id" element={<ArtistProfile />} />

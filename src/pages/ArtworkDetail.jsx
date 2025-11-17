@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useCart } from '../context/CartContext'
 import { useNotification } from '../hooks/useNotification'
 import Notification from '../components/Notification'
+import Reviews from '../components/Reviews'
 
 const ArtworkDetail = () => {
   const { id } = useParams()
@@ -601,6 +602,9 @@ const ArtworkDetail = () => {
             </div>
           </div>
         </div>
+
+        {/* Reviews Section */}
+        <Reviews itemId={id} itemType="artwork" />
       </div>
     </div>
   )

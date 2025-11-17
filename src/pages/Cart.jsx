@@ -1,7 +1,8 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 
 const Cart = () => {
+  const navigate = useNavigate()
   const { items, removeFromCart, updateQuantity, clearCart, getCartTotal } = useCart()
 
   const handleQuantityChange = (id, newQuantity) => {
@@ -10,6 +11,20 @@ const Cart = () => {
     } else {
       updateQuantity(id, newQuantity)
     }
+  }
+
+  const handleCheckout = () => {
+    // Check if user is logged in
+    const currentUser = localStorage.getItem('kalakriti_currentUser')
+    
+    if (!currentUser) {
+      alert('Please login to proceed with checkout')
+      navigate('/login')
+      return
+    }
+
+    // Navigate to payment page
+    navigate('/payment')
   }
 
   if (items.length === 0) {
@@ -172,6 +187,7 @@ const Cart = () => {
                 <span>₹{Math.round(getCartTotal() * 1.18).toLocaleString()}</span>
               </div>
               <button 
+                onClick={handleCheckout}
                 className="btn btn-primary"
                 style={{ width: '100%', marginBottom: '15px' }}
               >
