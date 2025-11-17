@@ -25,12 +25,12 @@ const Gallery = () => {
       auction: 'Live Auction'
     },
     {
-      id: 'painting2',
-      name: 'Chitrakala',
-      artist: 'Rajesh Kumar',
-      price: 51000,
-      image: '/images/new images/painting 2.jpg',
-      category: 'rajput',
+      id: 'painting7',
+      name: 'Thar Suryoday',
+      artist: 'Priya Sharma',
+      price: 37400,
+      image: '/images/new images/painting 7.jpeg',
+      category: 'landscape',
       auction: 'Live Auction'
     },
     {
@@ -70,12 +70,12 @@ const Gallery = () => {
       auction: 'Live Auction'
     },
     {
-      id: 'painting7',
-      name: 'Thar Suryoday',
-      artist: 'Priya Sharma',
-      price: 37400,
-      image: '/images/new images/painting 7.jpeg',
-      category: 'landscape',
+      id: 'painting2',
+      name: 'Chitrakala',
+      artist: 'Rajesh Kumar',
+      price: 51000,
+      image: '/images/new images/painting 2.jpg',
+      category: 'rajput',
       auction: 'Live Auction'
     },
     {
