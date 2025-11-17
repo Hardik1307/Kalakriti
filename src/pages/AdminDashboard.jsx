@@ -11,7 +11,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     // Check if user is admin
     const currentUser = JSON.parse(localStorage.getItem('kalakriti_currentUser') || '{}')
-    if (!currentUser.email || currentUser.role !== 'admin') {
+    if (!currentUser.email || currentUser.userType !== 'admin') {
       alert('Access denied! Admin only.')
       navigate('/')
       return
@@ -57,7 +57,7 @@ const AdminDashboard = () => {
     totalUsers: users.length,
     totalArtworks: artworks.length,
     totalOrders: orders.length,
-    totalRevenue: orders.reduce((sum, order) => sum + (order.total || 0), 0)
+    totalRevenue: orders.reduce((sum, order) => sum + (order.totalAmount || 0), 0)
   }
 
   return (
@@ -335,12 +335,12 @@ const AdminDashboard = () => {
                           <div>
                             <h4 style={{ marginBottom: '5px' }}>Order #{order.orderId}</h4>
                             <p style={{ fontSize: '14px', color: '#666' }}>
-                              {new Date(order.date).toLocaleDateString()}
+                              {new Date(order.orderDate || order.date).toLocaleDateString()}
                             </p>
                           </div>
                           <div style={{ textAlign: 'right' }}>
                             <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#6a11cb' }}>
-                              ₹{order.total?.toLocaleString()}
+                              ₹{(order.totalAmount || order.total || 0).toLocaleString()}
                             </div>
                             <span style={{
                               padding: '5px 10px',
@@ -353,8 +353,14 @@ const AdminDashboard = () => {
                             </span>
                           </div>
                         </div>
+                        <div style={{ marginBottom: '10px' }}>
+                          <strong>Customer:</strong> {order.userEmail || 'N/A'}
+                        </div>
                         <div>
                           <strong>Items:</strong> {order.items?.length || 0} item(s)
+                        </div>
+                        <div style={{ marginTop: '10px', fontSize: '14px', color: '#666' }}>
+                          <strong>Payment:</strong> {order.paymentMethod || 'N/A'}
                         </div>
                       </div>
                     ))}

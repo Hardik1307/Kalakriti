@@ -383,24 +383,6 @@ const Login = () => {
             </button>
           </form>
 
-          {/* Demo Credentials */}
-          <div style={{
-            background: '#e6f3ff',
-            border: '1px solid #b3d9ff',
-            borderRadius: '10px',
-            padding: '15px',
-            marginTop: '20px',
-            textAlign: 'center'
-          }}>
-            <h4 style={{ color: '#0066cc', marginBottom: '8px', fontSize: '14px' }}>
-              🔑 Demo Credentials
-            </h4>
-            <p style={{ fontSize: '13px', color: '#0066cc', margin: 0 }}>
-              <strong>Email:</strong> admin@kalakriti.com<br />
-              <strong>Password:</strong> admin123
-            </p>
-          </div>
-
           <div className="signup-link" style={{
             textAlign: 'center',
             marginTop: '25px',
